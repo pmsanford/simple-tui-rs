@@ -6,7 +6,8 @@ use termion::{async_stdin, event::Key, input::TermRead, raw::IntoRawMode};
 use tui::backend::TermionBackend;
 use tui::layout::{Constraint, Direction, Layout};
 use tui::style::{Color, Style};
-use tui::widgets::{Block, Borders, Paragraph, Text, Widget};
+use tui::text::Spans;
+use tui::widgets::{Block, Borders, Paragraph};
 use tui::Terminal;
 
 fn main() -> Result<(), io::Error> {
@@ -46,7 +47,7 @@ fn main() -> Result<(), io::Error> {
         }
 
         // Lock the terminal and start a drawing session.
-        terminal.draw(|mut frame| {
+        terminal.draw(|frame| {
             // Create a layout into which to place our blocks.
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
@@ -60,29 +61,31 @@ fn main() -> Result<(), io::Error> {
                 .split(frame.size());
 
             // Create a block...
-            Block::default()
+            let block = Block::default()
                 // With a given title...
                 .title("Color Changer")
                 // Borders on every side...
                 .borders(Borders::ALL)
                 // The background of the current color...
-                .style(Style::default().bg(cur_color))
-                // Rendered into the first chunk of the layout.
-                .render(&mut frame, chunks[0]);
+                .style(Style::default().bg(cur_color));
+
+            // Render into the first chunk of the layout.
+            frame.render_widget(block, chunks[0]);
 
             // The text lines for our text box.
-            let txt = [
-                Text::raw("The box above will change colors every three seconds.\n"),
-                Text::raw("Termion has a separate thread listening on stdin; pressing q will quit, but the main loop won't block waiting for it.\n"),
+            let txt = vec![
+                Spans::from("The box above will change colors every three seconds.\n"),
+                Spans::from("Termion has a separate thread listening on stdin; pressing q will quit, but the main loop won't block waiting for it.\n"),
             ];
             // Create a paragraph with the above text...
-            Paragraph::new(txt.iter())
+            let graph = Paragraph::new(txt)
                 // In a block with borders and the given title...
                 .block(Block::default().title("Text box").borders(Borders::ALL))
                 // With white foreground and black background...
-                .style(Style::default().fg(Color::White).bg(Color::Black))
-                // Rendered into the second chunk of the layout.
-                .render(&mut frame, chunks[1]);
+                .style(Style::default().fg(Color::White).bg(Color::Black));
+
+            // Render into the second chunk of the layout.
+            frame.render_widget(graph, chunks[1]);
         })?;
 
         // Iterate over all the keys that have been pressed since the
