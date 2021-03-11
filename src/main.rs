@@ -41,7 +41,7 @@ fn main() -> Result<(), io::Error> {
         let msecs = now.duration_since(then).as_millis();
         if msecs > 3000 {
             // Choose a random color from the list.
-            cur_color = colors[rng.gen_range(0, 5)];
+            cur_color = colors[rng.gen_range(0..=4)];
             // Reset the previous time
             then = Instant::now();
         }
