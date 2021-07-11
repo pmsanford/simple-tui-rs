@@ -6,6 +6,6 @@ edition = "2018"
 
 [dependencies]
 termion = "1.5"
-tui = "0.14"
+tui = "0.15"
 failure = "0.1"
 rand = "0.8"
