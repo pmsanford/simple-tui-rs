@@ -38,8 +38,8 @@ fn main() -> Result<(), io::Error> {
         // Check if it's been 3 seconds since the last time we
         // changed colors.
         let now = Instant::now();
-        let msecs = now.duration_since(then).as_millis();
-        if msecs > 3000 {
+        let msecs = now.duration_since(then).as_secs();
+        if msecs >= 3 {
             // Choose a random color from the list.
             cur_color = colors[rng.gen_range(0..=4)];
             // Reset the previous time

@@ -2,10 +2,10 @@
 name = "simple-tui-rs"
 version = "0.1.0"
 authors = ["Paul Sanford <me@paulsanford.net>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
 termion = "1.5"
-tui = "0.15"
+tui = { version = "0.17", features = ["termion"] }
 failure = "0.1"
 rand = "0.8"
