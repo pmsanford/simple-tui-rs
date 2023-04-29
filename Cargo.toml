@@ -5,7 +5,7 @@ authors = ["Paul Sanford <me@paulsanford.net>"]
 edition = "2021"
 
 [dependencies]
-termion = "1.5"
-tui = { version = "0.17", features = ["termion"] }
+termion = "2"
+tui = { version = "0.19", features = ["termion"] }
 failure = "0.1"
 rand = "0.8"

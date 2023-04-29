@@ -91,6 +91,8 @@ fn main() -> Result<(), io::Error> {
         // Iterate over all the keys that have been pressed since the
         // last time we checked.
         for k in asi.by_ref().keys() {
+            // Use if let if you're only checking for one key
+            #[allow(clippy::single_match)]
             match k.unwrap() {
                 // If any of them is q, quit
                 Key::Char('q') => {
